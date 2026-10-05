@@ -33,10 +33,14 @@ class GalleryRepository implements IGalleryRepository {
           break;
         case TzType.all:
           requestType = RequestType.common;
-        default:
       }
-      final List<AssetPathEntity> paths =
-          await PhotoManager.getAssetPathList(type: requestType);
+      final List<AssetPathEntity> paths = await PhotoManager.getAssetPathList(
+        type: requestType,
+        filterOption: CustomFilter.sql(
+          where: '',
+          orderBy: [OrderByItem.desc(CustomColumns.base.createDate)],
+        ),
+      );
       return paths;
     } catch (exception) {
       throw Exception(exception);
